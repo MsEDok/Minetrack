@@ -1,5 +1,6 @@
 docs/
 scripts/
+.git
 .gitignore
 .dockerignore
 docker-compose.yml

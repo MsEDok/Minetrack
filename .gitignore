@@ -14,3 +14,4 @@ database.sql-journal
 # parcel
 dist/
 .parcel-cache/
+install

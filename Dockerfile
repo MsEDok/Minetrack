@@ -1,30 +1,37 @@
-FROM node:16
+FROM node:20-slim
 
 ARG TINI_VER="v0.19.0"
+ARG HOST_UID=568
+ARG HOST_GID=568
 
-# install tini
-ADD https://github.com/krallin/tini/releases/download/$TINI_VER/tini /sbin/tini
-RUN chmod +x /sbin/tini
-
-# install sqlite3
-RUN apt-get update                                                   \
- && apt-get install    --quiet --yes --no-install-recommends sqlite3 \
- && apt-get clean      --quiet --yes                                 \
- && apt-get autoremove --quiet --yes                                 \
+# Install tini, sqlite3, and dependencies
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends curl sqlite3 ca-certificates git build-essential python3 \
+ && curl -fsSL -o /sbin/tini https://github.com/krallin/tini/releases/download/${TINI_VER}/tini \
+ && chmod +x /sbin/tini \
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# copy minetrack files
+# Set working directory
 WORKDIR /usr/src/minetrack
+
+# Copy package files first for efficient caching
+COPY package*.json ./
+
+# Install dependencies (no forced source builds — lets Node 20 prebuilds work)
+RUN npm ci
+
+# Copy the rest of the source
 COPY . .
 
-# build minetrack
-RUN npm install --build-from-source \
- && npm run build
+# Build the project
+RUN npm run build
 
-# run as non root
-RUN addgroup --gid 10043 --system minetrack \
- && adduser  --uid 10042 --system --ingroup minetrack --no-create-home --gecos "" minetrack \
+# Create a user matching host UID/GID
+RUN groupadd --gid ${HOST_GID} minetrack \
+ && useradd --uid ${HOST_UID} --gid ${HOST_GID} --system --no-create-home --shell /usr/sbin/nologin minetrack \
  && chown -R minetrack:minetrack /usr/src/minetrack
+
 USER minetrack
 
 EXPOSE 8080

@@ -1,12 +1,32 @@
 [
-	{
-		"name": "Hypixel",
-		"ip": "mc.hypixel.net",
-		"type": "PC"
-	},
-	{
-		"name": "CubeCraft",
-		"ip": "play.cubecraft.net",
-		"type": "PC"
-	}
+  {
+    "name": "UneasyVanilla",
+    "ip": "uneasyvanilla.com",
+    "type": "PC"
+  },
+  {
+    "name": "PurityVanilla",
+    "ip": "purityvanilla.com",
+    "type": "PC"
+  },
+  {
+    "name": "VForVanilla",
+    "ip": "vforv.net",
+    "type": "PC"
+  },
+  {
+    "name": "SimplyAnarchy",
+    "ip": "simplyanarchy.net",
+    "type": "PC"
+  },
+  {
+    "name": "ExiledAnarchy",
+    "ip": "exiledanarchy.net",
+    "type": "PC"
+  },
+  {
+    "name": "RefinedVanilla",
+    "ip": "refinedvanilla.net",
+    "type": "PC"
+  }
 ]

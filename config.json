@@ -13,6 +13,6 @@
   },
   "logFailedPings": true,
   "logToDatabase": true,
-  "graphDuration": 2592000000,
+  "graphDuration": 604800000,
   "serverGraphDuration": 3600000
 }
